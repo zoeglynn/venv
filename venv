@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# venv
+# 
+# usage: venv [target virtualenv dir]
+#
+# Alternative to virtualenv's 'source activate'
+#
+VIRTUAL_ENV=$1
+shift
+if [ ! -d "$VIRTUAL_ENV" ] || \
+   [ ! -x "$VIRTUAL_ENV/bin/python" ] ; then
+   echo "Usage: `basename $0` [virtualenv dir]"
+   exit 1
+fi
+
+export VIRTUAL_ENV=`cd $VIRTUAL_ENV; pwd`
+export PATH="$VIRTUAL_ENV/bin:$PATH"
+unset PYTHON_HOME
+exec "${@:-$SHELL}"
